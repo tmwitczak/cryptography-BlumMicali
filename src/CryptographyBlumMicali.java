@@ -8,7 +8,7 @@ import java.awt.*;
 import java.io.File;
 import java.nio.file.Files;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class Cryptography3DES
+class CryptographyBlumMicali
 		extends JFrame
 {
 	//------------------------------------------------------------------------------------------------------------- Main
@@ -30,7 +30,7 @@ class Cryptography3DES
 		{
 			try
 			{
-				Cryptography3DES frame = new Cryptography3DES();
+				CryptographyBlumMicali frame = new CryptographyBlumMicali();
 				frame.setVisible(true);
 			}
 			catch (Exception exception)
@@ -41,7 +41,7 @@ class Cryptography3DES
 	}
 
 	//------------------------------------------------------------------------------------------------------ Constructor
-	private Cryptography3DES()
+	private CryptographyBlumMicali()
 	{
 		// Set frame details
 		setTitle("Szyfrowanie/Deszyfrowanie - Algorytm 3DES");
