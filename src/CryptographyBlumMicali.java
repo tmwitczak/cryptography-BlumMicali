@@ -423,7 +423,7 @@ class CryptographyBlumMicali
 	private Key.Display keyDisplay = Key.Display.TEXT;
 
 	// > key
-	private byte[] key = null;
+	private Key key = null;
 
 	// > OneTimePad algorithm
 	private final AlgorithmOneTimePad algorithmOTP = new AlgorithmOneTimePad();
