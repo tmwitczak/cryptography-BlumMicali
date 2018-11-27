@@ -1,5 +1,8 @@
-import cryptography.*;
+import cryptography.AlgorithmOneTimePad;
+import cryptography.Key;
+import cryptography.KeyFormatter;
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
@@ -14,7 +17,9 @@ class CryptographyBlumMicali
 	//------------------------------------------------------------------------------------------------------------- Main
 	public static void main(String[] args)
 	{
+		// Set default encoding
 		System.setProperty("file.encoding", "UTF-8");
+
 		// Set non-default feel
 		try
 		{
@@ -108,7 +113,7 @@ class CryptographyBlumMicali
 			try
 			{
 				if(!plainTextArea.getText().equals(""))
-					cipherTextArea.setText(algorithm3DES.encrypt(plainTextArea.getText(), key));
+					cipherTextArea.setText(algorithmOTP.encrypt(plainTextArea.getText(), key.getBytes()));
 			}
 			catch(Exception exception)
 			{
@@ -129,7 +134,7 @@ class CryptographyBlumMicali
 			try
 			{
 				if(!cipherTextArea.getText().equals(""))
-					plainTextArea.setText(algorithm3DES.decrypt(cipherTextArea.getText(), key));
+					plainTextArea.setText(algorithmOTP.decrypt(cipherTextArea.getText(), key.getBytes()));
 			}
 			catch(Exception exception)
 			{
@@ -383,9 +388,9 @@ class CryptographyBlumMicali
 					inputBytes = Files.readAllBytes(inputFile.toPath());
 
 					if(encryption)
-						outputBytes = algorithm3DES.encrypt(inputBytes, key);
+						outputBytes = algorithmOTP.encrypt(inputBytes, key.getBytes());
 					else
-						outputBytes = algorithm3DES.decrypt(inputBytes, key);
+						outputBytes = algorithmOTP.decrypt(inputBytes, key.getBytes());
 
 					Files.write(outputFile.toPath(), outputBytes);
 				}
@@ -415,7 +420,7 @@ class CryptographyBlumMicali
 	private Key.Display keyDisplay = Key.Display.TEXT;
 	// > key
 	private Key key = null;
-	// > 3DES encryptor
-	private final Algorithm3DES algorithm3DES = new Algorithm3DES();
+	// > OTP encryptor
+	private final AlgorithmOneTimePad algorithmOTP = new AlgorithmOneTimePad();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
