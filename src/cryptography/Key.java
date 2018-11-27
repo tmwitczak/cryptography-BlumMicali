@@ -133,26 +133,3 @@ public class Key
 	private byte[] bytes;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*class Key56
-		extends Key
-{
-	// cryptography.Key length constant
-	private static final KeyLength KEY_LENGTH = KeyLength.SHORT;
-
-	// Constructors
-	public Key56()
-	{
-		super(KEY_LENGTH);
-	}
-
-	public Key56(byte[] bytes) throws Exception
-	{
-		// Call parent class constructor
-		super(bytes);
-
-		// Check key size
-		if (bytes.length != KEY_LENGTH.bits)
-			throw new Exception("cryptography.Key must be " + KEY_LENGTH.bits + " bits long!");
-	}
-}*/
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
