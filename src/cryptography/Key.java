@@ -31,8 +31,8 @@ public class Key
 			case BIN:
 				this.bytes = new byte[numberOfBytes];
 
-				for(int i = 0; i < numberOfBytes; i++)
-					this.bytes[i] = (byte) Integer.parseInt(text.substring(i * 9, i * 9 + 7), 2);
+				for(int i = 0; i < numberOfBytes - 1; i++)
+					this.bytes[i] = (byte) Integer.parseInt(text.substring(i * 8, i * 8 + 7), 2);
 
 				break;
 
@@ -83,17 +83,11 @@ public class Key
 
 	//-------------------------------------------------------------------------------------------- Random key generation
 	public void generateRandomKey(int numberOfBytes, Matma seed, Matma safePrime)
+		throws Exception
 	{
-		try
-		{
-			BlumMicaliGenerator blumMicaliGenerator = new BlumMicaliGenerator(seed, safePrime);
+		BlumMicaliGenerator blumMicaliGenerator = new BlumMicaliGenerator(seed, safePrime);
 
-			bytes = blumMicaliGenerator.getRandomBytes(numberOfBytes);
-		}
-		catch(Exception exception)
-		{
-			exception.printStackTrace();
-		}
+		bytes = blumMicaliGenerator.getRandomBytes(numberOfBytes);
 	}
 
 	//------------------------------------------------------------------------------------------------ Main byte content

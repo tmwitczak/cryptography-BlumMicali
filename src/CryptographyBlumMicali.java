@@ -49,7 +49,7 @@ class CryptographyBlumMicali
 	private CryptographyBlumMicali()
 	{
 		// Set frame details
-		setTitle("Szyfrowanie/Deszyfrowanie - Algorytm 3DES");
+		setTitle("Szyfrowanie/Deszyfrowanie - Algorytm OneTimePad / Generator Blum-Micali");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 200, 1200, 800);
 
@@ -173,9 +173,11 @@ class CryptographyBlumMicali
 				{
 					String keyText = event.getDocument().getText(event.getDocument().getStartPosition().getOffset(),
 							event.getDocument().getEndPosition().getOffset());
-					if (keyText.contains("\u02FD"))
+
+					if (keyText.substring(0, keyText.length() - 1).isEmpty())
 					{
-						//labelKeyInfo.setText("Wpisz klucz " + keyLength.bits + " bitowy!");
+						labelKeyInfo.setText("Wygeneruj lub wpisz klucz (binarnie)!");
+
 						buttonEncrypt.setEnabled(false);
 						buttonDecrypt.setEnabled(false);
 						plainTextArea.setEnabled(false);
@@ -183,11 +185,12 @@ class CryptographyBlumMicali
 						menuItemEncryptFile.setEnabled(false);
 						menuItemDecryptFile.setEnabled(false);
 
-						key = null;
+						//key = null;
 					}
-					else if(keyText.length() > 1 && key == null)
+					else
 					{
 						labelKeyInfo.setText(" ");
+
 						buttonEncrypt.setEnabled(true);
 						buttonDecrypt.setEnabled(true);
 						plainTextArea.setEnabled(true);
@@ -195,13 +198,12 @@ class CryptographyBlumMicali
 						menuItemEncryptFile.setEnabled(true);
 						menuItemDecryptFile.setEnabled(true);
 
-						//key = new Key(keyText.substring(0, keyText.length()-1), keyLength, keyDisplay);
+						key = new Key(keyText.substring(0, keyText.length()-1), keyText.length() / 8 + 1, keyDisplay.BIN);
 					}
 				}
 				catch (Exception exception)
 				{
-					//exception.printStackTrace();JOptionPane.showMessageDialog(null, exception.getMessage(), "Błąd",
-							//JOptionPane.ERROR_MESSAGE);
+					exception.printStackTrace();
 				}
 			}
 		});
@@ -240,12 +242,42 @@ class CryptographyBlumMicali
 		menuKey.add(menuItemGenerate);
 		menuItemGenerate.addActionListener(arg0 ->
 		{
-			JOptionPane.showInputDialog(null, "Wpisz liczbę pierwszą:", "Generator Blum-Micali", JOptionPane.PLAIN_MESSAGE);
+			try
+			{
+				// Get key length
+				String keyLengthStr = JOptionPane.showInputDialog(null,
+						"Wpisz długość klucza w bajtach:", "Generator Blum-Micali",
+						JOptionPane.PLAIN_MESSAGE);
+				int keyLengthBytes = Integer.parseInt(keyLengthStr);
 
-			key = new Key();
-			key.generateRandomKey(4, new Matma("9570534401487121496467970925158867173311659260360449216698291705369543311625846657862708743879011966"), new Matma("3089014570559104071319006923413060128665200110584708220833159771123973154612557115837845252375278767"));
+				if(keyLengthBytes <= 0)
+					throw new Exception("Podano nieprawidłową liczbę bajtów!");
 
-			keyTextField.setText(key.getKeyBinary());
+				// Get safe prime and seed values
+				String primeNumberStr = JOptionPane.showInputDialog(null,
+						"Wpisz liczbę pierwszą postaci 2p+1 (gdzie p jest liczbą pierwszą) [zostaw puste dla domyślnej wartości]:",
+						"Generator Blum-Micali", JOptionPane.PLAIN_MESSAGE);
+				Matma primeNumber;
+
+				if(primeNumberStr.isEmpty())
+					primeNumber = new Matma("3089014570559104071319006923413060128665200110584708220833159771123973154612557115837845252375278767");
+				else
+					primeNumber = new Matma(primeNumberStr);
+
+				String seed = JOptionPane.showInputDialog(null, "Wpisz ziarno:", "Generator Blum-Micali", JOptionPane.PLAIN_MESSAGE);
+
+				// Generate random key
+				key = new Key();
+				key.generateRandomKey(keyLengthBytes, new Matma(seed), primeNumber);
+
+				// Set key in text area
+				keyTextField.setText(key.getKeyBinary());
+			}
+			catch(Exception exception)
+			{
+				if(exception.getMessage() != "null")
+					JOptionPane.showMessageDialog(null, exception.getMessage(), "Generator Blum-Micali", JOptionPane.ERROR_MESSAGE);
+			}
 		});
 
 		menuBar.add(menuInfo);
@@ -311,7 +343,7 @@ class CryptographyBlumMicali
 	private final Font font2 = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
 	// > key parameters
-	private Key.Display keyDisplay = Key.Display.TEXT;
+	private Key.Display keyDisplay = Key.Display.BIN;
 
 	// > key
 	private Key key = null;
