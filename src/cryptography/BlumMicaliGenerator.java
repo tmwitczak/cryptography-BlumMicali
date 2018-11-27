@@ -18,7 +18,8 @@ public class BlumMicaliGenerator
 		this.seed = seed;                                                   // x[0]
 
 		if(!isNumberSafePrime(this.safePrime = safePrime))                  // p
-			throw new Exception("Number is not a safe prime!");
+			throw new Exception("Wpisana liczba nie jest liczbą pierwszą " +
+					"postaci 2p+1 (gdzie p jest liczbą pierwszą)!");
 
 		this.primitiveRoot = getPrimitiveRootOfSafePrime(this.safePrime);   // g
 	}
@@ -74,7 +75,8 @@ public class BlumMicaliGenerator
 		{
 			case 3:     return Matma.TWO;
 			case 7:     return safePrime.subtract(Matma.TWO);
-			default:    throw new Exception("Primitive root can't be found for that safe prime!");
+			default:    throw new Exception("Nie można znaleźć pierwiastka pierwotnego " +
+					"dla tej liczby pierwszej postaci 2p+1 (gdzie p jest liczbą pierwszą)!");
 		}
 	}
 }
