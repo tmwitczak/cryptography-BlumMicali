@@ -1,5 +1,6 @@
 package cryptography;
-import java.security.SecureRandom;
+
+import java.math.BigInteger;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 public class Key
 {
@@ -121,12 +122,18 @@ public class Key
 		return bytes.length == KeyLength.SHORT.bytes || bytes.length == KeyLength.MEDIUM.bytes
 				|| bytes.length == KeyLength.LONG.bytes;
 	}
-	private void generateRandomKey(KeyLength length)
+	private void generateRandomKey(int numberOfBytes, BigInteger seed, BigInteger safePrime)
 	{
-		SecureRandom randomNumberGenerator = new SecureRandom();
+		try
+		{
+			BlumMicaliGenerator blumMicaliGenerator = new BlumMicaliGenerator(seed, safePrime);
 
-		this.bytes = new byte[length.bytes];
-		randomNumberGenerator.nextBytes(this.bytes);
+			bytes = blumMicaliGenerator.getRandomBytes(numberOfBytes);
+		}
+		catch(Exception exception)
+		{
+			exception.printStackTrace();
+		}
 	}
 
 	//------------------------------------------------------------------------------------------------ Main byte content
