@@ -403,24 +403,29 @@ class CryptographyBlumMicali
 	}
 
 	//----------------------------------------------------------------------------------------------------------- Fields
-	// > constant button groups
+	// > button groups
 	private final ButtonGroup groupKeyDisplay = new ButtonGroup();
 	private final ButtonGroup groupKeyLength = new ButtonGroup();
-	// > used colors
+
+	// > colors
 	private final Color color1 = new Color(0x606060);
 	private final Color color2 = new Color(0x3C3C3C);
 	private final Color color3 = new Color(0xFAFAFA);
 	private final Color color4 = new Color(0xC0C0C0);
 	private final Color color5 = new Color(0xCC0000);
-	// > used fonts
+
+	// > fonts
 	private final Font font1 = new Font(Font.MONOSPACED, Font.PLAIN, 12);
 	private final Font font2 = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+
 	// > key parameters
 	private Key.KeyLength keyLength = Key.KeyLength.LONG;
 	private Key.Display keyDisplay = Key.Display.TEXT;
+
 	// > key
-	private Key key = null;
-	// > OTP encryptor
+	private byte[] key = null;
+
+	// > OneTimePad algorithm
 	private final AlgorithmOneTimePad algorithmOTP = new AlgorithmOneTimePad();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
