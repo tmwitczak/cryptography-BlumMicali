@@ -7,14 +7,17 @@ class AlgorithmOneTimePad
 	{
 		return algorithmBase(plainText, key);
 	}
+
 	public byte[] decrypt(byte[] cipherText, byte[] key)
 	{
 		return algorithmBase(cipherText, key);
 	}
+
 	public String encrypt(String plainText, byte[] key)
 	{
 		return algorithmBase(plainText, key);
 	}
+
 	public String decrypt(String cipherText, byte[] key)
 	{
 		return algorithmBase(cipherText, key);
@@ -25,11 +28,12 @@ class AlgorithmOneTimePad
 	{
 		byte[] xorText = new byte[text.length];
 
-		for(int i = 0; i < text.length; i++)
-			xorText[i] = (byte)(text[i] ^ key[i]);
+		for (int i = 0; i < text.length; i++)
+			xorText[i] = (byte) (text[i] ^ key[i]);
 
 		return xorText;
 	}
+
 	String algorithmBase(String input, byte[] key)
 	{
 		byte[] inputBytes = Converter.stringToBytesUTF8(input);
@@ -37,5 +41,5 @@ class AlgorithmOneTimePad
 
 		return Converter.bytesToStringUTF8(outputBytes);
 	}
-
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
