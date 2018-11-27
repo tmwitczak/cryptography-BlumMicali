@@ -1,6 +1,6 @@
 package cryptography;
 
-import java.math.BigInteger;
+import megaRollo.Matma;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 public class Key
 {
@@ -82,7 +82,7 @@ public class Key
 
 
 	//-------------------------------------------------------------------------------------------- Random key generation
-	public void generateRandomKey(int numberOfBytes, BigInteger seed, BigInteger safePrime)
+	public void generateRandomKey(int numberOfBytes, Matma seed, Matma safePrime)
 	{
 		try
 		{

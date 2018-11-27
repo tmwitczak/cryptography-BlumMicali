@@ -1090,7 +1090,7 @@ public class Matma extends Number implements Comparable<Matma> {
     /**
      * The Matma constant two.  (Not exported.)
      */
-    private static final Matma TWO = valueOf(2);
+    public static final Matma TWO = valueOf(2);
 
     /**
      * The Matma constant -1.  (Not exported.)

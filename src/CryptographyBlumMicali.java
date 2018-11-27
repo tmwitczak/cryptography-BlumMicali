@@ -1,5 +1,6 @@
 import cryptography.AlgorithmOneTimePad;
 import cryptography.Key;
+import megaRollo.Matma;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -8,7 +9,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.io.File;
-import java.math.BigInteger;
 import java.nio.file.Files;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CryptographyBlumMicali
@@ -240,8 +240,10 @@ class CryptographyBlumMicali
 		menuKey.add(menuItemGenerate);
 		menuItemGenerate.addActionListener(arg0 ->
 		{
+			JOptionPane.showInputDialog(null, "Wpisz liczbę pierwszą:", "Generator Blum-Micali", JOptionPane.PLAIN_MESSAGE);
+
 			key = new Key();
-			key.generateRandomKey(4, new BigInteger("9570534401487121496467970925158867173311659260360449216698291705369543311625846657862708743879011966"), new BigInteger("3089014570559104071319006923413060128665200110584708220833159771123973154612557115837845252375278767"));
+			key.generateRandomKey(4, new Matma("9570534401487121496467970925158867173311659260360449216698291705369543311625846657862708743879011966"), new Matma("3089014570559104071319006923413060128665200110584708220833159771123973154612557115837845252375278767"));
 
 			keyTextField.setText(key.getKeyBinary());
 		});
