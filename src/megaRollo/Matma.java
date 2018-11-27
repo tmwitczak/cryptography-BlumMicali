@@ -2,9 +2,6 @@
 
 package megaRollo;
 
-import sun.misc.DoubleConsts;
-import sun.misc.FloatConsts;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

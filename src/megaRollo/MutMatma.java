@@ -7,8 +7,9 @@ package megaRollo;
 //import sample.SMutMatma;
 
 import java.util.Arrays;
-import static sample.Library.Matma.LONG_MASK;
-import static sample.Library.DMatma.INFLATED;
+
+import static megaRollo.DMatma.INFLATED;
+import static megaRollo.Matma.LONG_MASK;
 
 
 class MutMatma {
