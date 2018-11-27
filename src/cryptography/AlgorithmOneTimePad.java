@@ -1,6 +1,6 @@
 package cryptography;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class AlgorithmOneTimePad
+public class AlgorithmOneTimePad
 {
 	//----------------------------------------------------------------------------------------------------- Main methods
 	public byte[] encrypt(byte[] plainText, byte[] key)
