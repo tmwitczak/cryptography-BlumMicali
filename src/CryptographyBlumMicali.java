@@ -1,6 +1,5 @@
 import cryptography.AlgorithmOneTimePad;
 import cryptography.Key;
-import cryptography.KeyFormatter;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -9,6 +8,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.io.File;
+import java.math.BigInteger;
 import java.nio.file.Files;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class CryptographyBlumMicali
@@ -69,15 +69,6 @@ class CryptographyBlumMicali
 		JMenuItem menuItemEncryptFile = new JMenuItem("Szyfruj...");
 		JMenuItem menuItemDecryptFile = new JMenuItem("Deszyfruj...");
 		JMenu menuKey = new JMenu("Klucz");
-		JMenu menuKeyLength = new JMenu("D\u0142ugo\u015B\u0107");
-		JRadioButtonMenuItem radioButton64bits = new JRadioButtonMenuItem("64 bity");
-		JRadioButtonMenuItem radioButton128bits = new JRadioButtonMenuItem("128 bit\u00F3w");
-		JRadioButtonMenuItem radioButton192bits = new JRadioButtonMenuItem("192 bity");
-		JMenu menuKeyDisplay = new JMenu("Tryb wpisywania");
-		JRadioButtonMenuItem radioButtonText = new JRadioButtonMenuItem("Tekst");
-		JRadioButtonMenuItem radioButtonBin = new JRadioButtonMenuItem("Binarnie");
-		JRadioButtonMenuItem radioButtonHex = new JRadioButtonMenuItem("Heksadecymalnie");
-		JSeparator separator = new JSeparator();
 		JMenuItem menuItemGenerate = new JMenuItem("Generuj");
 		JMenu menuInfo = new JMenu("Informacje");
 		JMenuItem menuItemAuthors = new JMenuItem("Autorzy");
@@ -151,7 +142,7 @@ class CryptographyBlumMicali
 		contentPane.add(buttonDecrypt, "cell 1 6,growx");
 
 		// > Text fields and areas
-		KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
+		//KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
 		keyTextField.setCaretColor(getForeground());
 		keyTextField.setForeground(color3);
 		keyTextField.setBackground(color1);
@@ -184,7 +175,7 @@ class CryptographyBlumMicali
 							event.getDocument().getEndPosition().getOffset());
 					if (keyText.contains("\u02FD"))
 					{
-						labelKeyInfo.setText("Wpisz klucz " + keyLength.bits + " bitowy!");
+						//labelKeyInfo.setText("Wpisz klucz " + keyLength.bits + " bitowy!");
 						buttonEncrypt.setEnabled(false);
 						buttonDecrypt.setEnabled(false);
 						plainTextArea.setEnabled(false);
@@ -204,7 +195,7 @@ class CryptographyBlumMicali
 						menuItemEncryptFile.setEnabled(true);
 						menuItemDecryptFile.setEnabled(true);
 
-						key = new Key(keyText.substring(0, keyText.length()-1), keyLength, keyDisplay);
+						//key = new Key(keyText.substring(0, keyText.length()-1), keyLength, keyDisplay);
 					}
 				}
 				catch (Exception exception)
@@ -246,114 +237,13 @@ class CryptographyBlumMicali
 
 		menuBar.add(menuKey);
 
-		menuKey.add(menuKeyLength);
-
-		groupKeyLength.add(radioButton64bits);
-		menuKeyLength.add(radioButton64bits);
-		radioButton64bits.addActionListener(arg0 ->
-		{
-			keyLength = Key.KeyLength.SHORT;
-			keyTextField.setText("");
-			KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
-		});
-
-		groupKeyLength.add(radioButton128bits);
-		menuKeyLength.add(radioButton128bits);
-		radioButton128bits.addActionListener(arg0 ->
-		{
-			keyLength = Key.KeyLength.MEDIUM;
-			keyTextField.setText("");
-			KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
-		});
-
-		radioButton192bits.setSelected(true);
-		groupKeyLength.add(radioButton192bits);
-		menuKeyLength.add(radioButton192bits);
-		radioButton192bits.addActionListener(arg0 ->
-		{
-			keyLength = Key.KeyLength.LONG;
-			keyTextField.setText("");
-			KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
-		});
-
-		menuKey.add(menuKeyDisplay);
-
-		menuKeyDisplay.add(radioButtonText);
-		radioButtonText.addActionListener(arg0 ->
-		{
-			keyDisplay = Key.Display.TEXT;
-			String temp = "";//(key != null ? key.getKeyText() : "");
-			keyTextField.setText("");
-			KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
-			key = null;
-			//keyTextField.setText(temp);
-			/*try
-			{
-				if(key != null)
-					key = new Key(keyTextField.getText().substring(0, keyTextField.getText().length() - 1), keyLength, keyDisplay);
-			}
-			catch(Exception exception) {}*/
-		});
-		radioButtonText.setSelected(true);
-		groupKeyDisplay.add(radioButtonText);
-
-		menuKeyDisplay.add(radioButtonBin);
-		radioButtonBin.addActionListener(arg0 ->
-		{
-			keyDisplay = Key.Display.BIN;
-			String temp = "";// (key != null ? key.getKeyBinary() : "");
-			keyTextField.setText("");
-			KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
-			key = null;
-			//keyTextField.setText(temp);
-			/*try
-			{
-				if(key != null)
-					key = new Key(keyTextField.getText().substring(0, keyTextField.getText().length() - 1), keyLength, keyDisplay);
-			}
-			catch(Exception exception) {}*/
-		});
-		groupKeyDisplay.add(radioButtonBin);
-
-		menuKeyDisplay.add(radioButtonHex);
-		radioButtonHex.addActionListener(arg0 ->
-		{
-			keyDisplay = Key.Display.HEX;
-			String temp = "";//(key != null ? key.getKeyHexadecimal() : "");
-			keyTextField.setText("");
-			KeyFormatter.setFormatter(keyLength, keyDisplay, keyTextField);
-			key = null;
-			//keyTextField.setText(temp);
-			/*try
-			{
-				if(key != null)
-					key = new Key(keyTextField.getText().substring(0, keyTextField.getText().length() - 1), keyLength, keyDisplay);
-			}
-			catch(Exception exception) {}*/
-		});
-		groupKeyDisplay.add(radioButtonHex);
-
-		menuKey.add(separator);
-
 		menuKey.add(menuItemGenerate);
 		menuItemGenerate.addActionListener(arg0 ->
 		{
-			Key randomKey = new Key(keyLength);
-			String keyToTextField = null;
-			switch (keyDisplay)
-			{
-				case TEXT:
-					keyToTextField = randomKey.getKeyText();
-					break;
-				case BIN:
-					keyToTextField = randomKey.getKeyBinary();
-					break;
-				case HEX:
-					keyToTextField = randomKey.getKeyHexadecimal();
-					break;
-			}
-			keyTextField.setText(keyToTextField);
-			key = randomKey;
+			key = new Key();
+			key.generateRandomKey(4, new BigInteger("9570534401487121496467970925158867173311659260360449216698291705369543311625846657862708743879011966"), new BigInteger("3089014570559104071319006923413060128665200110584708220833159771123973154612557115837845252375278767"));
+
+			keyTextField.setText(key.getKeyBinary());
 		});
 
 		menuBar.add(menuInfo);
@@ -419,7 +309,6 @@ class CryptographyBlumMicali
 	private final Font font2 = new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
 	// > key parameters
-	private Key.KeyLength keyLength = Key.KeyLength.LONG;
 	private Key.Display keyDisplay = Key.Display.TEXT;
 
 	// > key
